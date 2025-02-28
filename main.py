@@ -7,15 +7,19 @@ load_dotenv()
 
 graph = GraphAPI(os.getenv('APP_TOKEN'))
 
-groupIDs = ("[id here]","[etc]")
+#posts = graph.get('me/posts')
 
-outfile_name ="teacher-groups-summary-export-data.csv"
-f = csv.writer(open(outfile_name, "wb+"))
+groupIDs = ("621862203973053") # group Ids
+
+# In graph explorer, try to access group:
+#   621862203973053/feed
+# 
+# I don't have permission.
+#
+# API docs: https://developers.facebook.com/docs/graph-api/reference/v22.0/group/feed
 
 for gID in groupIDs:
     groupData = graph.get(gID + "/feed", page=True, retry=3, limit=500)
-
-
     for data in groupData:
         json_data=json.dumps(data, indent = 4,cls=DecimalEncoder)
         decoded_response = json_data.decode("UTF-8")
